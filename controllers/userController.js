@@ -23,27 +23,34 @@ exports.user_list = asyncHandler(async (req, res, next) => {
 exports.signup_get = asyncHandler(async (req, res, next) => {
   res.render ('signup', {
     title: "Sign up!", 
-
   })
 });
 
+
+
 exports.signup_post = asyncHandler(async (req, res, next) => {
   try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username,
-      password: req.body.password
+      password: hashedPassword
     });
+
     const result = await user.save();
     res.redirect("/");
+
   } catch(err) {
     return next(err);
   };
 });
 
+
+
+
+
 exports.login_get = asyncHandler(async (req, res, next) => {
   res.render ('login', {
     title: "Log in!", 
-
   })
 });
 

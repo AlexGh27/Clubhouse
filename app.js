@@ -7,13 +7,14 @@ const mongoose = require("mongoose");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const passport = require('passport');
+const initializePassport = require('./passport-config');
 const homeRouter = require('./routes/home');
 const signupRouter = require('./routes/signup');
 const loginRouter = require('./routes/login');
 const session = require('express-session');
 require('dotenv').config();
 
-
+initializePassport(passport);
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.DATABASE_KEY;
 
