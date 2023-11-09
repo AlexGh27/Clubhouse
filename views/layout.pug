@@ -6,7 +6,9 @@ html
   body
     block content
 
-    a(href='/signup') Sign up! 
+    if username
+      p Hello, #{username}
+    else 
+      a(href='/signup') Sign up! 
+      a(href='/login') Log in!
 
-    
-    a(href='/login') Log in!

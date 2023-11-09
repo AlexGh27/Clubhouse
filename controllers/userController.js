@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const asyncHandler = require("express-async-handler");
-
+const bcrypt = require('bcrypt');
 
 exports.index = asyncHandler(async(req, res, next) => {
   const [
@@ -9,9 +9,12 @@ exports.index = asyncHandler(async(req, res, next) => {
     User.countDocuments({}).exec()
   ]);
 
+  const username = req.body.username;
+  console.log(username)
   res.render("index", {
     title: "Home",
-    user_count: allUsers,
+    username: username,
+    req: req
   })
 })
 
@@ -33,19 +36,18 @@ exports.signup_post = asyncHandler(async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
       password: hashedPassword
     });
 
     const result = await user.save();
-    res.redirect("/");
+    rres.redirect(`/home?username=${req.body.username}`);
 
   } catch(err) {
     return next(err);
   };
 });
-
-
-
 
 
 exports.login_get = asyncHandler(async (req, res, next) => {
@@ -54,15 +56,3 @@ exports.login_get = asyncHandler(async (req, res, next) => {
   })
 });
 
-exports.login_post = asyncHandler(async (req, res, next) => {
-  try {
-    const user = new User({
-      username: req.body.username,
-      password: req.body.password
-    });
-    const result = await user.save();
-    res.redirect("/");
-  } catch(err) {
-    return next(err);
-  };
-});

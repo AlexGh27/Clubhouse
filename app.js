@@ -7,14 +7,13 @@ const mongoose = require("mongoose");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const passport = require('passport');
-const initializePassport = require('./passport-config');
+const initializePassport = require('./passport-config')
 const homeRouter = require('./routes/home');
 const signupRouter = require('./routes/signup');
 const loginRouter = require('./routes/login');
 const session = require('express-session');
 require('dotenv').config();
 
-initializePassport(passport);
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.DATABASE_KEY;
 
@@ -22,12 +21,17 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
-
+initializePassport(passport);
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(logger('dev'));
 app.use(express.json());
