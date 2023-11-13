@@ -3,24 +3,14 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 
 exports.index = asyncHandler(async(req, res, next) => {
-  const [
-    allUsers
-  ] = await Promise.all([
-    User.countDocuments({}).exec()
-  ]);
-
-  const username = req.body.username;
-  console.log(username)
   res.render("index", {
     title: "Home",
-    username: username,
-    req: req
+    username: req.user.username,
+    first_name: req.user.first_name,
+    last_name: req.user.last_name
+    
   })
 })
-
-exports.user_list = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Users list");
-});
 
 
 exports.signup_get = asyncHandler(async (req, res, next) => {
@@ -28,7 +18,6 @@ exports.signup_get = asyncHandler(async (req, res, next) => {
     title: "Sign up!", 
   })
 });
-
 
 
 exports.signup_post = asyncHandler(async (req, res, next) => {
@@ -42,13 +31,12 @@ exports.signup_post = asyncHandler(async (req, res, next) => {
     });
 
     const result = await user.save();
-    rres.redirect(`/home?username=${req.body.username}`);
+    res.redirect(`/home?username=${req.body.username}`);
 
   } catch(err) {
     return next(err);
   };
 });
-
 
 exports.login_get = asyncHandler(async (req, res, next) => {
   res.render ('login', {
