@@ -7,7 +7,8 @@ html
     block content
 
     if username
-      p Hello, #{username}
+      p Hello, #{first_name}
+      a(href='/logout') Log out
     else 
       a(href='/signup') Sign up! 
       a(href='/login') Log in!

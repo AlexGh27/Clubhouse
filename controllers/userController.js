@@ -3,13 +3,18 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 
 exports.index = asyncHandler(async(req, res, next) => {
-  res.render("index", {
-    title: "Home",
-    username: req.user.username,
-    first_name: req.user.first_name,
-    last_name: req.user.last_name
+  if (req.user && req.user.username) {
+    res.render("index", {
+      title: "Home",
+      username: req.user.username,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name
     
-  })
+    })
+  }
+  else {
+    res.render('index', { username: null });
+  }
 })
 
 

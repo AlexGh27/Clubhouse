@@ -11,6 +11,7 @@ const initializePassport = require('./passport-config')
 const homeRouter = require('./routes/home');
 const signupRouter = require('./routes/signup');
 const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout')
 const session = require('express-session');
 require('dotenv').config();
 
@@ -43,7 +44,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/home', homeRouter);
 app.use('/signup', signupRouter);
-app.use('/login', loginRouter)
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
