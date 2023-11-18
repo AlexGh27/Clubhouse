@@ -8,10 +8,11 @@ exports.index = asyncHandler(async(req, res, next) => {
       title: "Home",
       username: req.user.username,
       first_name: req.user.first_name,
-      last_name: req.user.last_name
-    
+      last_name: req.user.last_name,
+      status: req.user.status
     })
   }
+
   else {
     res.render('index', { username: null });
   }

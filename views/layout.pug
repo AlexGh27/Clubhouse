@@ -8,8 +8,17 @@ html
 
     if username
       p Hello, #{first_name}
+      a(href='/create') Create a new post
+
+      if status == 'regular'
+        a(href='become') Become a member!
+
       a(href='/logout') Log out
+      
     else 
       a(href='/signup') Sign up! 
       a(href='/login') Log in!
+    
+    div(class='post-container')
+      div(class='post')
 
