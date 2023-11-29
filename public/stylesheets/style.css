@@ -6,10 +6,20 @@ body, html {
   width: 80%;
   height: 100%;
   background-color: red;
-  
+  padding-left: 2vw;
+  padding-top: 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .post {
   width: 90%;
   background-color: blue;
+}
+
+.post-bar {
+  background-color: green;
+  display: flex;
+  justify-content: space-between;
 }

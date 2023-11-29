@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 exports.index = asyncHandler(async(req, res, next) => {
   
-  const allPosts = await Post.find({}, "text").exec();
+  const allPosts = await Post.find({}, "text").populate('author', 'first_name last_name').select('text date').sort({date: -1}).exec();
 
   if (req.user && req.user.username) {
     res.render("index", {
@@ -14,7 +14,8 @@ exports.index = asyncHandler(async(req, res, next) => {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
       status: req.user.status,
-      post_list: allPosts  
+      post_list: allPosts,
+       
     });
   } else {
     res.render('index', { username: null, post_list: allPosts });

@@ -23,7 +23,11 @@ html
       if post_list
         each post in post_list
           div(class='post')
-            div(class='post-author') #{post.author}
-            div(class='post-date') #{post.date}
+            div(class='post-bar')
+              if username 
+                div(class='post-author') #{post.author.first_name} #{post.author.last_name}
+              else 
+                div(class='post-author') Anonymous
+              div(class='post-date') #{post.date.toDateString().slice(4, 15)}
             div(class='post-text') #{post.text}
 
