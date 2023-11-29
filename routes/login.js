@@ -9,10 +9,8 @@ router.get('/', user_controller.login_get);
 router.post('/', 
     passport.authenticate('local', {
         successRedirect: '/?login=true',
-        failureRedirect: '/'
+        failureRedirect: '/login'
     })
 );
-
-
 
 module.exports = router;

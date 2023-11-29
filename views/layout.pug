@@ -20,5 +20,10 @@ html
       a(href='/login') Log in!
     
     div(class='post-container')
-      div(class='post')
+      if post_list
+        each post in post_list
+          div(class='post')
+            div(class='post-author') #{post.author}
+            div(class='post-date') #{post.date}
+            div(class='post-text') #{post.text}
 

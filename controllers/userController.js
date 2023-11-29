@@ -1,22 +1,26 @@
 const User = require("../models/user");
+const Post = require('../models/post');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
 
 exports.index = asyncHandler(async(req, res, next) => {
+  
+  const allPosts = await Post.find({}, "text").exec();
+
   if (req.user && req.user.username) {
     res.render("index", {
       title: "Home",
       username: req.user.username,
       first_name: req.user.first_name,
       last_name: req.user.last_name,
-      status: req.user.status
-    })
+      status: req.user.status,
+      post_list: allPosts  
+    });
+  } else {
+    res.render('index', { username: null, post_list: allPosts });
   }
+});
 
-  else {
-    res.render('index', { username: null });
-  }
-})
 
 
 exports.signup_get = asyncHandler(async (req, res, next) => {
