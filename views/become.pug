@@ -1,0 +1,11 @@
+doctype html 
+html(lang='en')
+  head 
+    meta(charset='UTF-8')
+    title Become a member
+  body
+    h1 Become a member
+    form(action='/become', method='post')
+      label(for='inputCode') Secret code 
+      input(name='inputCode', type='password')
+      button(type='submit') Enter the code!

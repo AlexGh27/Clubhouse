@@ -12,7 +12,8 @@ html
 
       if status == 'regular'
         a(href='become') Become a member!
-
+      else if status == 'member'
+        a(href='become') Become an admin!
       a(href='/logout') Log out
       
     else 
@@ -24,10 +25,13 @@ html
         each post in post_list
           div(class='post')
             div(class='post-bar')
-              if username 
+              if status === 'member'
                 div(class='post-author') #{post.author.first_name} #{post.author.last_name}
+                div(class='post-date') #{post.date.toDateString().slice(4, 15)}
               else 
                 div(class='post-author') Anonymous
-              div(class='post-date') #{post.date.toDateString().slice(4, 15)}
+              
             div(class='post-text') #{post.text}
+            if status === 'admin'
+              button Delete post
 

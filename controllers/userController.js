@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Post = require('../models/post');
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 exports.index = asyncHandler(async(req, res, next) => {
   
@@ -50,8 +51,33 @@ exports.signup_post = asyncHandler(async (req, res, next) => {
 });
 
 exports.login_get = asyncHandler(async (req, res, next) => {
-  res.render ('login', {
+  res.render('login', {
     title: "Log in!", 
   })
 });
 
+
+exports.become_get = asyncHandler(async(req, res, next) => {
+  res.render('become', {
+    title: "Become a member"
+  })
+});
+
+exports.become_post = asyncHandler(async(req, res, bext) => {
+  const memberCode = process.env.MEMBER_CODE;
+  const adminCode = process.env.ADMIN_CODE;
+  const {inputCode} = req.body;
+
+  if (inputCode === memberCode) {
+    await User.findByIdAndUpdate(req.user._id, { status: 'member' });
+    res.redirect('/home'); 
+  } 
+  else if (inputCode === adminCode){
+    await User.findByIdAndUpdate(req.user._id, { status: 'admin' });
+    res.redirect('/home'); 
+  }
+  else {
+    res.render('become', { title: 'Become a member', error: 'Invalid secret code' });
+  }
+
+})
